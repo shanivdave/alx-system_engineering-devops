@@ -1,2 +1,7 @@
 #!/bin/bash
+<<<<<<< HEAD
 pwd
+=======
+echo "ALX School"
+
+>>>>>>> 2c64180f2b87609d0ce3f2bb69b9e7a1fe78242c
