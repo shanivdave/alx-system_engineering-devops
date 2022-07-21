@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-# This script displays "Best School" 10 times using the until loop
-a=10
-until [ "$a" -le "0" ]
+# Displays "Holberton School" 10 times using an until loop.
+
+count=0
+
+until [ $count -eq 10 ]
 do
-	echo "Best School"
-	((a--))
+  echo "Best School"
+  (( count++ ))
 done
