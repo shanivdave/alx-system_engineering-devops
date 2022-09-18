@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 ssh root@172.17.0.23
 mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys
 chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys
