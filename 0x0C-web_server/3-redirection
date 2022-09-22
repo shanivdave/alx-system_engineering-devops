@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
-# Installing Nginx on Server and redirect
+# Install nginx and start it
 sudo apt-get update -y && sudo apt-get upgrade -y
-sudo apt-get install -y nginx
-sudo chown -R "$USER":"$USER" /var/www/
-sudo chown -R "$USER":"$USER" /etc/nginx
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
-line="\\\trewrite ^/redirect_me https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent;"
-sudo sed -i "26i $line" /etc/nginx/sites-available/default
+sudo apt-get -y install nginx
+
+# Firewall setting: Allow Nginx to serve on HTTP
+sudo ufw allow 'Nginx HTTP'
+
+# Override the default index file served as home page
+sudo echo "Holberton School" >> /var/www/html/index.html
+
+#Give the user  ownership to website files
+sudo chown -R $USER:$USER /var/www/html
+sudo chmod -R 755 /var/www
+
+# Redirect to /redirect_me to a youtube video
+sudo sed -i '37i\rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+
 sudo service nginx restart
 sudo service nginx reload
