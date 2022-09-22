@@ -7,7 +7,7 @@ sudo apt-get -y install nginx
 sudo ufw allow 'Nginx HTTP'
 
 # Override the default index file served as home page
-sudo echo "Holberton School" >> /var/www/html/index.html
+sudo echo "Hello World!" >> /var/www/html/index.html
 
 #Give the user  ownership to website files
 sudo chown -R $USER:$USER /var/www/html
