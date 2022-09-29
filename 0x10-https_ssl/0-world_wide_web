@@ -12,7 +12,7 @@ then
   domain_information "$1" "www"
   domain_information "$1" "20365-lb-01"
   domain_information "$1" "20365-web-01"
-  domain_information "$1" "20365-web-01"
+  domain_information "$1" "20365-web-02"
 elif [ "$#" == 2 ]
 then
   domain_information "$1" "$2"
