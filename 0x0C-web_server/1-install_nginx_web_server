@@ -5,6 +5,23 @@ sudo apt-get -y update
 sudo apt-get -y install nginx
 sudo ufw allow "OpenSSH"
 sudo ufw allow "Nginx HTTP"
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+mkdir -p /var/www/html
+chmod -R 755 /var/www
 sudo chown -R $USER:$USER /var/www/html/index.nginx-debian.html
 sudo echo "Hello World!" > /var/www/html/index.nginx-debian.html
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+ > /etc/nginx/sites-enabled/default"
 sudo service nginx restart
