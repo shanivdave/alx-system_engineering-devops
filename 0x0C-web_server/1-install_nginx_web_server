@@ -3,8 +3,6 @@
 
 apt-get update
 apt-get install nginx
-sudo ufw app list
-sudo ufw allow 'Nginx HTTP'
 cp /etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default.bak
 echo "Hello World!" > /var/www/html/index.html
 
