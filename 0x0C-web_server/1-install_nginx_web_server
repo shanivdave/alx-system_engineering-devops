@@ -3,8 +3,10 @@
 
 sudo apt-get -y update
 sudo apt-get -y install nginx
+sudo ufw status
 sudo ufw allow "Nginx HTTP"
 sudo ufw allow "OpenSSH"
+sudo ufw enable
 sudo chown -R $USER:$USER /var/www/html/index.nginx-debian.html
 sudo echo "Hello World!" > /var/www/html/index.nginx-debian.html
 sudo service nginx restart
