@@ -1,9 +1,20 @@
 #!/usr/bin/env bash
-# Installing a web server Nginx
-sudo apt-get update
-sudo apt-get -y install nginx
-sudo service nginx start
-echo "Hello World" | sudo tee /usr/share/nginx/html/index.html
-echo "Hello World" | sudo tee /var/www/html/index.nginx-debian.html
+# a script that installs nginx server and sets it to port 80 and returns a page # with the string "hello world"
+
+apt-get update
+apt-get install nginx
+cp /etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default.bak
+echo "Hello World!" > /var/www/html/index.html
+
+printf %s "server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /var/www/html/;
+        index index.html index.htm;
+        server_name example.com www.example.com;
+        location / {
+                try_files $url $url/ =404;
+        }
+}
+" > /etc/nginx/sites-available/default
 sudo service nginx restart
-sudo service nginx reload
