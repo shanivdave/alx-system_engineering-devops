@@ -7,3 +7,8 @@ sudo /bin/bash -c 'echo "deb http://repo.mysql.com/apt/ubuntu bionic mysql-5.7" 
 sudo apt-get update
 sudo apt install -f mysql-client=5.7* mysql-community-server=5.7* mysql-server=5.7*
 # password: ubuntu_user_pwd
+
+-- Creates a user with a replication client privilege
+CREATE USER IF NOT EXISTS 'holberton_user'@'localhost' IDENTIFIED BY 'projectcorrection280hbtn';
+GRANT REPLICATION CLIENT ON *.* TO 'holberton_user'@'localhost';
+FLUSH PRIVILEGES;
