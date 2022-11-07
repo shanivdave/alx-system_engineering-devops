@@ -1,3 +1,3 @@
-# alx-system_engineering-devops
-understanding of bash shell navigation
-# alx-system_engineering-devops
+# 0x14. MySQL
+
+This project covers setting up a master-slave database setup on ubuntu servers.
