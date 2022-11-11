@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Configures a ufw firwall to block all incoming traffic
 #+ except for ports 22, 443 and 80
-
+ssh ubuntu@34.204.199.6
 apt install ufw
 ufw default deny incoming
 ufw default allow outgoing
