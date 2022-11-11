@@ -1,15 +1,23 @@
 #!/usr/bin/env bash
-# This script prints the A records of the domain
-check_arg ()
+# display information about subdomains
+# domains and subdomains to be passed as arguments to script
+
+# function for extracting domain and subdomain details from dig
+
+findRecords ()
 {
-    if [ "$1" -eq  1 ];
-    then
-	return_val="www.$2 lb-01.$2 web-01.$2 web-02.$2"
-    else
-	return_val="$3.$2"
-    fi
+    r_type="$(dig ${2}.${1} | awk 'NR==14 { print $4 }')"
+    ip_add="$(dig ${2}.${1} | awk 'NR==14 { print $5 }')"
+
+    echo "The subdomain $2 is a $r_type record and points to $ip_add"
 }
 
-check_arg "$#" "$1" "$2"
-
-dig $return_val | awk '/ANSWER SECTION/ {getline; split($1, a, "."); print "The subdomain", a[1], "is a", $4, "record and points to", $5}'
+if [ "$#" -ne 2 ];
+then
+    findRecords $1 "www"
+    findRecords $1 "lb-01"
+    findRecords $1 "web-01"
+    findRecords $1 "web-02"
+else
+    findRecords $1 $2
+fi
