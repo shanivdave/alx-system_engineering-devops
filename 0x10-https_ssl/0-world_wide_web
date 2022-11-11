@@ -1,20 +1,18 @@
 #!/usr/bin/env bash
-# Bash script that will display information about subdomains
-# shellcheck disable=SC2086
+#Configure your domain zone so that the subdomain www and display information about subdomains
 
-get_parameters()
-{
-    record=$(dig $i.$1 | awk '/ANSWER SECTION:/ {getline; print $4}')
-    ip=$(dig $i.$1 | awk '/ANSWER SECTION:/ {getline; print $5}')
-}
-
-if [ -z $2 ]; then
-    for i in "www" "lb-01" "web-01" "web-02"; do
-    get_parameters $1
-    echo "The subdomain $i is a $record record and points to $ip"
+if [ "$#" = 1 ]
+then
+    subdomains=("www" "lb-01" "web-01" "web-02")
+    for sub_domain in "${subdomains[@]}"
+    do
+	record_type=$(dig $sub_domain.$1 | grep -A1 'ANSWER SECTION' | tail -1 | awk '{print $4}')
+        destination=$(dig $sub_domain.$1 | grep -A1 'ANSWER SECTION' | tail -1 | awk '{print $5}')
+	echo "The subdomain $sub_domain is a $record_type record and points to $destination"
     done
-else
-    i=$2
-    get_parameters $1
-    echo "The subdomain $i is a $record record and points to $ip"
+elif [ "$#" = 2 ]
+then
+    record_type=$(dig $2.$1 | grep -A1 'ANSWER SECTION' | tail -1 | awk '{print $4}')
+    destination=$(dig $2.$1 | grep -A1 'ANSWER SECTION' | tail -1 | awk '{print $5}')
+    echo "The subdomain $2 is a $record_type record and points to $destination"
 fi
