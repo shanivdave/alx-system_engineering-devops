@@ -1,35 +1,20 @@
 #!/usr/bin/env bash
-# Displays informtation about subdomains.
+# Bash script that will display information about subdomains
+# shellcheck disable=SC2086
 
-# uncomment for debugging purposes.
-#set -x
-
-# for the checker to work please remove the colors.
-
-# colors
-blue='\e[1;34m'
-brown='\e[0;33m'
-reset='\033[0m'
-
-# variables & parameters
-subdomains=( "www" "lb-01" "web-01" "web-02" )
-domain="$1"
-sub="$2"
-
-dig_cmd () {
-	# func variables
-	sub="$2"
-	INFO="$(dig "$sub.$domain" | grep -A1 'ANSWER SECTION:' | awk 'NR==2')"
-	IP=$(echo "$INFO" | awk '{print $5}')
-	RECORD=$(echo "$INFO" | awk '{print $4}')
-
-	echo -e "${brown}The subdomain ${blue}$sub${brown} is a ${blue}$RECORD${brown} record and points to ${blue}$IP${reset}"
+get_parameters()
+{
+    record=$(dig $i.$1 | awk '/ANSWER SECTION:/ {getline; print $4}')
+    ip=$(dig $i.$1 | awk '/ANSWER SECTION:/ {getline; print $5}')
 }
 
-if [ $# -eq 1 ]; then
-	for subs in "${subdomains[@]}"; do
-		dig_cmd "$domain" "$subs"
-	done
-elif [ $# -eq 2 ]; then
-	dig_cmd "$domain" "$sub"
+if [ -z $2 ]; then
+    for i in "www" "lb-01" "web-01" "web-02"; do
+    get_parameters $1
+    echo "The subdomain $i is a $record record and points to $ip"
+    done
+else
+    i=$2
+    get_parameters $1
+    echo "The subdomain $i is a $record record and points to $ip"
 fi
